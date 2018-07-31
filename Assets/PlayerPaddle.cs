@@ -6,7 +6,6 @@ public class PlayerPaddle : MonoBehaviour
     [SerializeField] float yClamp = 4.3f;
     [SerializeField] string inputAxis;
 
-    bool isServer = false;
     Vector2 startingPosition;
 
     void Start()
@@ -27,11 +26,6 @@ public class PlayerPaddle : MonoBehaviour
         float clampPosY = Mathf.Clamp(rawPosY, -yClamp, yClamp);
 
         transform.position = new Vector3(transform.position.x, clampPosY);
-    }
-
-    void SetIsServing(bool isServing)
-    {
-        isServer = isServing;
     }
 
     public void ResetPaddlePosition()
