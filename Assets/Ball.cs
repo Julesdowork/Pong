@@ -5,36 +5,41 @@ using UnityEngine;
 public class Ball : MonoBehaviour
 {
     [SerializeField] float speed = 1f;
-    [SerializeField] PlayerPaddle leftPaddle, rightPaddle;
+    [SerializeField] Paddle leftPaddle, rightPaddle;
 
     Vector3 originalPos;
-    bool isServed = false;
     Rigidbody2D rigidBody;
-    GameController gameController;
+    ScoreManager scoreKeeper;
 
 	// Use this for initialization
 	void Start()
     {
         originalPos = transform.position;
         rigidBody = GetComponent<Rigidbody2D>();
-        //gameController = GameObject.FindGameObjectWithTag("GameController")
-        //    .GetComponent<GameController>();
+        scoreKeeper = FindObjectOfType<ScoreManager>();
         Invoke("Serve", 3f);
 	}
 
     void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.name == "Right Collider")
+        if (scoreKeeper.isGameOver)
         {
-            gameController.AddScore("left");
+            // Go to End Screen
         }
-        else if (other.name == "Left Collider")
+        else
         {
-            gameController.AddScore("right");
+            if (other.name == "Right Collider")
+            {
+                scoreKeeper.AddScore("left");
+            }
+            else if (other.name == "Left Collider")
+            {
+                scoreKeeper.AddScore("right");
+            }
+            rigidBody.velocity = Vector2.zero;
+            ResetPositions();
+            Invoke("Serve", 3f);
         }
-        isServed = false;
-        rigidBody.velocity = Vector2.zero;
-        ResetPositions();
     }
 
     void OnCollisionEnter2D(Collision2D other)
@@ -49,8 +54,6 @@ public class Ball : MonoBehaviour
     void Serve()
     {
         float randomDirection = Random.Range(0, 2);
-        float randomForceY = Random.Range(-1f, 1f);
-        isServed = true;
         if (randomDirection == 0)
             rigidBody.velocity = Vector2.right * speed;
         else

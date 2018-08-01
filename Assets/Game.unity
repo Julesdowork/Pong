@@ -179,28 +179,13 @@ GameObject:
   - component: {fileID: 232331891}
   - component: {fileID: 232331890}
   - component: {fileID: 232331889}
-  - component: {fileID: 232331888}
   m_Layer: 0
-  m_Name: Player (1)
+  m_Name: Computer
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &232331888
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 232331887}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ef18d5475c14ecc4f99e1d324a9f5966, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  speed: 10
-  yClamp: 4.3
-  inputAxis: Vertical
 --- !u!114 &232331889
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -212,6 +197,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 41b1a61991f8f864abc53b21c2e0d25b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isComputer: 1
+  speed: 1
+  yClamp: 4.3
+  inputAxis: Vertical
 --- !u!50 &232331890
 Rigidbody2D:
   serializedVersion: 4
@@ -640,8 +629,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 10
-  leftPaddle: {fileID: 2040195190}
-  rightPaddle: {fileID: 232331888}
+  leftPaddle: {fileID: 2040195186}
+  rightPaddle: {fileID: 232331889}
 --- !u!1 &855058288
 GameObject:
   m_ObjectHideFlags: 0
@@ -825,7 +814,7 @@ BoxCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
@@ -938,12 +927,12 @@ GameObject:
   - component: {fileID: 1571210143}
   - component: {fileID: 1571210142}
   m_Layer: 0
-  m_Name: GameController
+  m_Name: ScoreManager
   m_TagString: GameController
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1571210142
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -955,10 +944,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3ace48d9dd37f2d478c0ae53377c6856, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  server: {fileID: 0}
+  isGameOver: 0
   leftPaddleScoreText: {fileID: 1449239176}
-  rightPaddleScoreText: {fileID: 0}
-  ball: {fileID: 820863492}
+  rightPaddleScoreText: {fileID: 307083525}
 --- !u!4 &1571210143
 Transform:
   m_ObjectHideFlags: 0
@@ -997,7 +985,7 @@ BoxCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
@@ -1106,7 +1094,6 @@ GameObject:
   - component: {fileID: 2040195189}
   - component: {fileID: 2040195191}
   - component: {fileID: 2040195186}
-  - component: {fileID: 2040195190}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -1125,6 +1112,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 41b1a61991f8f864abc53b21c2e0d25b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isComputer: 0
+  speed: 10
+  yClamp: 4.3
+  inputAxis: Vertical
 --- !u!212 &2040195187
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -1208,20 +1199,6 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.2, y: 1.4}
   m_EdgeRadius: 0
---- !u!114 &2040195190
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 2040195185}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ef18d5475c14ecc4f99e1d324a9f5966, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  speed: 10
-  yClamp: 4.3
-  inputAxis: Vertical
 --- !u!50 &2040195191
 Rigidbody2D:
   serializedVersion: 4

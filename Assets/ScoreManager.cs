@@ -1,14 +1,11 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
-public class GameController : MonoBehaviour
+public class ScoreManager : MonoBehaviour
 {
-    public Paddle server;
+    public bool isGameOver;
 
     [SerializeField] Text leftPaddleScoreText, rightPaddleScoreText;
-    [SerializeField] Ball ball;
 
     int leftPaddleScore, rightPaddleScore;
 
@@ -16,6 +13,15 @@ public class GameController : MonoBehaviour
 	void Start()
     {
         UpdateScoreDisplay();
+    }
+
+    void Update()
+    {
+        if (leftPaddleScore == 2 || rightPaddleScore == 2)
+        {
+            print("Game Over!");
+            isGameOver = true;
+        }
     }
 
     void UpdateScoreDisplay()
