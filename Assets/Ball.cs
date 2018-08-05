@@ -9,37 +9,30 @@ public class Ball : MonoBehaviour
 
     Vector3 originalPos;
     Rigidbody2D rigidBody;
-    ScoreManager scoreKeeper;
+    ScoreKeeper scoreKeeper;
 
 	// Use this for initialization
 	void Start()
     {
         originalPos = transform.position;
         rigidBody = GetComponent<Rigidbody2D>();
-        scoreKeeper = FindObjectOfType<ScoreManager>();
+        scoreKeeper = FindObjectOfType<ScoreKeeper>();
         Invoke("Serve", 3f);
 	}
 
     void OnTriggerEnter2D(Collider2D other)
     {
-        if (scoreKeeper.isGameOver)
+        if (other.name == "Right Collider")
         {
-            // Go to End Screen
+            scoreKeeper.AddScore("left");
         }
-        else
+        else if (other.name == "Left Collider")
         {
-            if (other.name == "Right Collider")
-            {
-                scoreKeeper.AddScore("left");
-            }
-            else if (other.name == "Left Collider")
-            {
-                scoreKeeper.AddScore("right");
-            }
-            rigidBody.velocity = Vector2.zero;
-            ResetPositions();
-            Invoke("Serve", 3f);
+            scoreKeeper.AddScore("right");
         }
+        rigidBody.velocity = Vector2.zero;
+        ResetPositions();
+        Invoke("Serve", 3f);
     }
 
     void OnCollisionEnter2D(Collision2D other)

@@ -1,27 +1,18 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-public class ScoreManager : MonoBehaviour
+public class ScoreKeeper : MonoBehaviour
 {
-    public bool isGameOver;
-
     [SerializeField] Text leftPaddleScoreText, rightPaddleScoreText;
-
+    [SerializeField] int winningScore;
+    [SerializeField] Paddle leftPaddle;
+    [SerializeField] Paddle rightPaddle;
+    
     int leftPaddleScore, rightPaddleScore;
 
-	// Use this for initialization
 	void Start()
     {
         UpdateScoreDisplay();
-    }
-
-    void Update()
-    {
-        if (leftPaddleScore == 2 || rightPaddleScore == 2)
-        {
-            print("Game Over!");
-            isGameOver = true;
-        }
     }
 
     void UpdateScoreDisplay()
@@ -41,5 +32,20 @@ public class ScoreManager : MonoBehaviour
             rightPaddleScore += 1;
         }
         UpdateScoreDisplay();
+    }
+
+    public bool IsGameOver()
+    {
+        return leftPaddleScore == winningScore || rightPaddleScore == winningScore;
+    }
+
+    public Paddle GetWinner()
+    {
+        if (!IsGameOver())
+            return null;
+        else if (leftPaddleScore > rightPaddleScore)
+            return leftPaddle;
+        else
+            return rightPaddle;
     }
 }

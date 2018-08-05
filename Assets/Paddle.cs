@@ -7,9 +7,11 @@ public class Paddle : MonoBehaviour
     [SerializeField] float speed = 10f;
     [SerializeField] float yClamp = 4.3f;
     [SerializeField] string inputAxis;
+    [SerializeField] string name;
 
     Vector2 startingPosition;
     GameObject ball;
+    bool controlsEnabled = true;
 
     void Awake()
     {
@@ -24,13 +26,16 @@ public class Paddle : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (isComputer)
+        if (controlsEnabled)
         {
-            MoveComputer();
-        }
-        else
-        {
-            MovePlayer();
+            if (isComputer)
+            {
+                MoveComputer();
+            }
+            else
+            {
+                MovePlayer();
+            }
         }
     }
 
@@ -54,5 +59,15 @@ public class Paddle : MonoBehaviour
     public void ResetPaddlePosition()
     {
         transform.position = startingPosition;
+    }
+
+    public void SetControls(bool areControlsEnabled)
+    {
+        controlsEnabled = areControlsEnabled;
+    }
+
+    public string GetName()
+    {
+        return name;
     }
 }
