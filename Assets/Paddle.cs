@@ -4,7 +4,7 @@ public class Paddle : MonoBehaviour
 {
     public bool isComputer;
 
-    [SerializeField] float speed = 10f;
+    [SerializeField] float speed;
     [SerializeField] float yClamp = 4.3f;
     [SerializeField] string inputAxis;
     [SerializeField] string name;

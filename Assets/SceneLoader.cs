@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class SceneLoader : MonoBehaviour
 {
-	void Awake()
+	/*void Awake()
     {
         int numSceneLoaders = FindObjectsOfType<SceneLoader>().Length;
         if (numSceneLoaders > 1)
@@ -16,10 +16,11 @@ public class SceneLoader : MonoBehaviour
         {
             DontDestroyOnLoad(gameObject);
         }
-    }
+    }*/
 
     public void GoToScene(int sceneNumber)
     {
+        print("Loading new scene");
         SceneManager.LoadScene(sceneNumber);
     }
 }

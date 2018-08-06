@@ -5,11 +5,16 @@ using UnityEngine.UI;
 
 public class OptionsHandler : MonoBehaviour
 {
+    public static OptionsHandler instance;
+
     [SerializeField] Text player1StateText;
     [SerializeField] Text player2StateText;
     [SerializeField] Slider winningScoreSlider;
     [SerializeField] Text winningScoreText;
-    [SerializeField] Text particlesText;
+    //[SerializeField] Text particlesText;
+    [SerializeField] Button easyButton;
+    [SerializeField] Button mediumButton;
+    [SerializeField] Button hardButton;
 
     enum PaddleState { Player, Computer };
     enum Difficulty { Easy, Medium, Hard};
@@ -18,7 +23,25 @@ public class OptionsHandler : MonoBehaviour
     PaddleState player2 = PaddleState.Computer;
     Difficulty difficultyLevel = Difficulty.Medium;
     int winningScore = 11;
-    bool particlesOn = true;
+    //bool particlesOn = true;
+    Color deselectedColor = new Color(1f, 1f, 1f, 0.478f);
+    Color selectedColor = new Color(1f, 1f, 1f, 1f);
+    ColorBlock cb;
+
+    void Awake()
+    {
+        if (instance != null)
+        {
+            Destroy(this);
+        }
+        else
+        {
+            instance = this;
+            DontDestroyOnLoad(instance);
+        }
+
+        cb = easyButton.colors;
+    }
 
     public void ChangePlayer1State()
     {
@@ -61,6 +84,30 @@ public class OptionsHandler : MonoBehaviour
             default: Debug.LogError("Problem setting the difficulty level.");
                 break;
         }
+        ChangeDifficultyButtonState();
+    }
+
+    void ChangeDifficultyButtonState()
+    {
+        easyButton.colors = cb;
+        mediumButton.colors = cb;
+        hardButton.colors = cb;
+        
+        cb.highlightedColor = selectedColor;
+
+        switch (difficultyLevel)
+        {
+            case Difficulty.Easy: easyButton.colors = cb;
+                break;
+            case Difficulty.Medium: mediumButton.colors = cb;
+                break;
+            case Difficulty.Hard: hardButton.colors = cb;
+                break;
+            default: Debug.LogError("There was a problem setting the colors for the difficulty buttons.");
+                break;
+        }
+        
+        cb.highlightedColor = deselectedColor;
     }
 
     public void SetWinningScore()
@@ -69,7 +116,8 @@ public class OptionsHandler : MonoBehaviour
         winningScoreText.text = winningScore.ToString();
     }
 
-    public void ParticlesSwitch()
+    // Todo: make particle effect when ball strikes paddles
+    /*public void ParticlesSwitch()
     {
         particlesOn = !particlesOn;
 
@@ -77,5 +125,5 @@ public class OptionsHandler : MonoBehaviour
             particlesText.text = "On";
         else
             particlesText.text = "Off";
-    }
+    }*/
 }
