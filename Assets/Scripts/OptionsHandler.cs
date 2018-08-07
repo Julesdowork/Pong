@@ -20,49 +20,56 @@ public class OptionsHandler : MonoBehaviour
     void Start()
     {
         cb = easyButton.colors;
-        winningScoreSlider.value = PlayerPrefsManager.GetWinningScore();
+        DisplayWinningScore();
+        DisplayDifficultyState();
+        DisplayPlayerStates();
     }
 
     public void ChangePlayer1State()
     {
         if (PlayerPrefsManager.GetPlayerState(1) == 1)
-        {
             PlayerPrefsManager.SetPlayerState(1, 0);    // 0 = Computer
-            player1StateText.text = "Computer";
-        }
         else
-        {
             PlayerPrefsManager.SetPlayerState(1, 1);    // 1 = Player
-            player1StateText.text = "Player";
-        }
+
+        DisplayPlayerStates();
     }
 
     public void ChangePlayer2State()
     {
         if (PlayerPrefsManager.GetPlayerState(2) == 1)
-        {
             PlayerPrefsManager.SetPlayerState(2, 0);
-            player2StateText.text = "Computer";
-        }
         else
-        {
             PlayerPrefsManager.SetPlayerState(2, 1);
-            player2StateText.text = "Player";
-        }
+
+        DisplayPlayerStates();
     }
 
-    public void SetDifficulty(int difficulty)
+    void DisplayPlayerStates()
+    {
+        if (PlayerPrefsManager.GetPlayerState(1) == 0)
+            player1StateText.text = "Computer";
+        else
+            player1StateText.text = "Player";
+        if (PlayerPrefsManager.GetPlayerState(2) == 0)
+            player1StateText.text = "Computer";
+        else
+            player1StateText.text = "Player";
+    }
+
+    public void ChangeDifficulty(int difficulty)
     {
         PlayerPrefsManager.SetDifficulty(difficulty);
-        ChangeDifficultyButtonState();
+        DisplayDifficultyState();
     }
 
-    void ChangeDifficultyButtonState()
+    void DisplayDifficultyState()
     {
         easyButton.colors = cb;
         mediumButton.colors = cb;
         hardButton.colors = cb;
-        
+
+        cb.normalColor = selectedColor;
         cb.highlightedColor = selectedColor;
 
         int difficultyLevel = PlayerPrefsManager.GetDifficulty();
@@ -84,6 +91,11 @@ public class OptionsHandler : MonoBehaviour
     public void SetWinningScore()
     {
         PlayerPrefsManager.SetWinningScore((int)winningScoreSlider.value);
+        DisplayWinningScore();
+    }
+
+    void DisplayWinningScore()
+    {
         winningScoreText.text = winningScoreSlider.value.ToString();
     }
 

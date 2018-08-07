@@ -15,7 +15,6 @@ public class Ball : MonoBehaviour
 	// Use this for initialization
 	void Start()
     {
-        print("Ball speed: " + speed);
         originalPos = transform.position;
         rigidBody = GetComponent<Rigidbody2D>();
         gameManager = FindObjectOfType<GameManager>();
@@ -24,6 +23,7 @@ public class Ball : MonoBehaviour
 
         scoreKeeper = FindObjectOfType<ScoreKeeper>();
         audioSource = GetComponent<AudioSource>();
+        print("Ball speed: " + speed);
         Invoke("Serve", 3f);
 	}
 
@@ -46,6 +46,7 @@ public class Ball : MonoBehaviour
     {
         if (other.collider.CompareTag("Player"))
         {
+            audioSource.pitch = Random.Range(0.85f, 1.15f);
             audioSource.Play();
             float hitAngleFactor = (transform.position.y - other.transform.position.y) / other.collider.bounds.size.y;
             if (hitAngleFactor == 0)
