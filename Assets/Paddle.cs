@@ -4,17 +4,18 @@ public class Paddle : MonoBehaviour
 {
     public bool isComputer;
 
-    [SerializeField] float speed;
     [SerializeField] float yClamp = 4.3f;
     [SerializeField] string inputAxis;
-    [SerializeField] string name;
+    [SerializeField] string paddleName;
 
+    float speed = 10f;
     Vector2 startingPosition;
     GameObject ball;
     bool controlsEnabled = true;
 
     void Awake()
     {
+        print(paddleName + " speed: " + speed);
         ball = GameObject.Find("Ball");
     }
 
@@ -24,7 +25,7 @@ public class Paddle : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         if (controlsEnabled)
         {
@@ -50,10 +51,20 @@ public class Paddle : MonoBehaviour
 
     void MoveComputer()
     {
-        float rawPosY = Mathf.MoveTowards(transform.position.y, ball.transform.position.y, speed * Time.deltaTime);
-        float clampPosY = Mathf.Clamp(rawPosY, -yClamp, yClamp);
+        Vector3 movement = Vector3.zero;
+        float diffY = ball.transform.position.y - transform.position.y;
+        if (diffY > 0)
+        {
+            movement.y = speed * Mathf.Min(diffY, 1f);
+        }
+        if (diffY < 0)
+        {
+            movement.y = -(speed * Mathf.Min(-diffY, 1f));
+        }
 
-        transform.position = new Vector3(transform.position.x, clampPosY);
+        transform.position += movement * Time.deltaTime;
+        float clampPosY = Mathf.Clamp(transform.position.y, -yClamp, yClamp);
+        transform.position = new Vector3(transform.position.x, clampPosY, 0f);
     }
 
     public void ResetPaddlePosition()
@@ -68,6 +79,21 @@ public class Paddle : MonoBehaviour
 
     public string GetName()
     {
-        return name;
+        return paddleName;
+    }
+
+    public void SetName(string newName)
+    {
+        paddleName = newName;
+    }
+
+    public void SetSpeed(float newSpeed)
+    {
+        speed = newSpeed;
+    }
+
+    public void ChangeInputAxis()
+    {
+        inputAxis = "VerticalRight";
     }
 }

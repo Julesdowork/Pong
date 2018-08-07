@@ -1,12 +1,8 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 public class OptionsHandler : MonoBehaviour
 {
-    public static OptionsHandler instance;
-
     [SerializeField] Text player1StateText;
     [SerializeField] Text player2StateText;
     [SerializeField] Slider winningScoreSlider;
@@ -15,75 +11,49 @@ public class OptionsHandler : MonoBehaviour
     [SerializeField] Button easyButton;
     [SerializeField] Button mediumButton;
     [SerializeField] Button hardButton;
-
-    enum PaddleState { Player, Computer };
-    enum Difficulty { Easy, Medium, Hard};
-
-    PaddleState player1 = PaddleState.Player;
-    PaddleState player2 = PaddleState.Computer;
-    Difficulty difficultyLevel = Difficulty.Medium;
-    int winningScore = 11;
+    
     //bool particlesOn = true;
     Color deselectedColor = new Color(1f, 1f, 1f, 0.478f);
     Color selectedColor = new Color(1f, 1f, 1f, 1f);
     ColorBlock cb;
 
-    void Awake()
+    void Start()
     {
-        if (instance != null)
-        {
-            Destroy(this);
-        }
-        else
-        {
-            instance = this;
-            DontDestroyOnLoad(instance);
-        }
-
         cb = easyButton.colors;
+        winningScoreSlider.value = PlayerPrefsManager.GetWinningScore();
     }
 
     public void ChangePlayer1State()
     {
-        if (player1 == PaddleState.Player)
+        if (PlayerPrefsManager.GetPlayerState(1) == 1)
         {
-            player1 = PaddleState.Computer;
+            PlayerPrefsManager.SetPlayerState(1, 0);    // 0 = Computer
             player1StateText.text = "Computer";
         }
         else
         {
-            player1 = PaddleState.Player;
+            PlayerPrefsManager.SetPlayerState(1, 1);    // 1 = Player
             player1StateText.text = "Player";
         }
     }
 
     public void ChangePlayer2State()
     {
-        if (player2 == PaddleState.Player)
+        if (PlayerPrefsManager.GetPlayerState(2) == 1)
         {
-            player2 = PaddleState.Computer;
+            PlayerPrefsManager.SetPlayerState(2, 0);
             player2StateText.text = "Computer";
         }
         else
         {
-            player2 = PaddleState.Player;
+            PlayerPrefsManager.SetPlayerState(2, 1);
             player2StateText.text = "Player";
         }
     }
 
-    public void SetDifficulty(string difficulty)
+    public void SetDifficulty(int difficulty)
     {
-        switch (difficulty)
-        {
-            case "easy": difficultyLevel = Difficulty.Easy;
-                break;
-            case "medium": difficultyLevel = Difficulty.Medium;
-                break;
-            case "hard": difficultyLevel = Difficulty.Hard;
-                break;
-            default: Debug.LogError("Problem setting the difficulty level.");
-                break;
-        }
+        PlayerPrefsManager.SetDifficulty(difficulty);
         ChangeDifficultyButtonState();
     }
 
@@ -95,13 +65,14 @@ public class OptionsHandler : MonoBehaviour
         
         cb.highlightedColor = selectedColor;
 
+        int difficultyLevel = PlayerPrefsManager.GetDifficulty();
         switch (difficultyLevel)
         {
-            case Difficulty.Easy: easyButton.colors = cb;
+            case 1: easyButton.colors = cb;
                 break;
-            case Difficulty.Medium: mediumButton.colors = cb;
+            case 2: mediumButton.colors = cb;
                 break;
-            case Difficulty.Hard: hardButton.colors = cb;
+            case 3: hardButton.colors = cb;
                 break;
             default: Debug.LogError("There was a problem setting the colors for the difficulty buttons.");
                 break;
@@ -112,8 +83,8 @@ public class OptionsHandler : MonoBehaviour
 
     public void SetWinningScore()
     {
-        winningScore = (int)winningScoreSlider.value;
-        winningScoreText.text = winningScore.ToString();
+        PlayerPrefsManager.SetWinningScore((int)winningScoreSlider.value);
+        winningScoreText.text = winningScoreSlider.value.ToString();
     }
 
     // Todo: make particle effect when ball strikes paddles

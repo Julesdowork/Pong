@@ -4,14 +4,15 @@ using UnityEngine.UI;
 public class ScoreKeeper : MonoBehaviour
 {
     [SerializeField] Text leftPaddleScoreText, rightPaddleScoreText;
-    [SerializeField] int winningScore;
-    [SerializeField] Paddle leftPaddle;
-    [SerializeField] Paddle rightPaddle;
-    
+
+    int winningScore;
+    GameManager gameManager;
     int leftPaddleScore, rightPaddleScore;
 
 	void Start()
     {
+        gameManager = FindObjectOfType<GameManager>();
+        winningScore = PlayerPrefsManager.GetWinningScore();
         UpdateScoreDisplay();
     }
 
@@ -44,8 +45,8 @@ public class ScoreKeeper : MonoBehaviour
         if (!IsGameOver())
             return null;
         else if (leftPaddleScore > rightPaddleScore)
-            return leftPaddle;
+            return gameManager.paddles[0];
         else
-            return rightPaddle;
+            return gameManager.paddles[1];
     }
 }

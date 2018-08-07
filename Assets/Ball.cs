@@ -1,22 +1,29 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class Ball : MonoBehaviour
 {
-    [SerializeField] float speed = 1f;
-    [SerializeField] Paddle leftPaddle, rightPaddle;
+    Paddle leftPaddle;
+    Paddle rightPaddle;
 
+    float speed;
     Vector3 originalPos;
     Rigidbody2D rigidBody;
     ScoreKeeper scoreKeeper;
+    AudioSource audioSource;
+    GameManager gameManager;
 
 	// Use this for initialization
 	void Start()
     {
+        print("Ball speed: " + speed);
         originalPos = transform.position;
         rigidBody = GetComponent<Rigidbody2D>();
+        gameManager = FindObjectOfType<GameManager>();
+        leftPaddle = gameManager.paddles[0];
+        rightPaddle = gameManager.paddles[1];
+
         scoreKeeper = FindObjectOfType<ScoreKeeper>();
+        audioSource = GetComponent<AudioSource>();
         Invoke("Serve", 3f);
 	}
 
@@ -39,7 +46,12 @@ public class Ball : MonoBehaviour
     {
         if (other.collider.CompareTag("Player"))
         {
+            audioSource.Play();
             float hitAngleFactor = (transform.position.y - other.transform.position.y) / other.collider.bounds.size.y;
+            if (hitAngleFactor == 0)
+            {
+                hitAngleFactor = Random.Range(-0.5f, 0.5f);
+            }
             CollideWithPaddle(other.gameObject, hitAngleFactor);
         }
     }
@@ -56,8 +68,7 @@ public class Ball : MonoBehaviour
     void CollideWithPaddle(GameObject paddle, float factor)
     {
         Vector2 direction;
-        float rawNewSpeed = speed + Random.Range(-2f, 2f);
-        speed = Mathf.Clamp(rawNewSpeed, 7f, 13f);
+        //speed = Random.Range(9f, 15f);
         if (paddle == leftPaddle.gameObject)
         {
             direction = new Vector2(1f, factor).normalized;
@@ -75,5 +86,10 @@ public class Ball : MonoBehaviour
         leftPaddle.ResetPaddlePosition();
         rightPaddle.ResetPaddlePosition();
         transform.position = originalPos;
+    }
+
+    public void SetSpeed(float newSpeed)
+    {
+        speed = newSpeed;
     }
 }
