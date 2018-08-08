@@ -23,6 +23,11 @@ public class OptionsHandler : MonoBehaviour
         DisplayWinningScore();
         DisplayDifficultyState();
         DisplayPlayerStates();
+
+        print("Left is: " + PlayerPrefsManager.GetPlayerState(1));
+        print("Right is: " + PlayerPrefsManager.GetPlayerState(2));
+        print("Difficulty set to: " + PlayerPrefsManager.GetDifficulty());
+        print("Winning score: " + PlayerPrefsManager.GetWinningScore());
     }
 
     public void ChangePlayer1State()
@@ -51,10 +56,11 @@ public class OptionsHandler : MonoBehaviour
             player1StateText.text = "Computer";
         else
             player1StateText.text = "Player";
+
         if (PlayerPrefsManager.GetPlayerState(2) == 0)
-            player1StateText.text = "Computer";
+            player2StateText.text = "Computer";
         else
-            player1StateText.text = "Player";
+            player2StateText.text = "Player";
     }
 
     public void ChangeDifficulty(int difficulty)
@@ -84,7 +90,8 @@ public class OptionsHandler : MonoBehaviour
             default: Debug.LogError("There was a problem setting the colors for the difficulty buttons.");
                 break;
         }
-        
+
+        cb.normalColor = deselectedColor;
         cb.highlightedColor = deselectedColor;
     }
 
@@ -96,7 +103,8 @@ public class OptionsHandler : MonoBehaviour
 
     void DisplayWinningScore()
     {
-        winningScoreText.text = winningScoreSlider.value.ToString();
+        winningScoreSlider.value = PlayerPrefsManager.GetWinningScore();
+        winningScoreText.text = PlayerPrefsManager.GetWinningScore().ToString();
     }
 
     // Todo: make particle effect when ball strikes paddles

@@ -18,17 +18,13 @@ public class GameManager : MonoBehaviour
 
     void Awake()
     {
-        print("Left is: " + PlayerPrefsManager.GetPlayerState(1));
-        print("Right is: " + PlayerPrefsManager.GetPlayerState(2));
-        print("Difficulty set to: " + PlayerPrefsManager.GetDifficulty());
-        print("Winning score: " + PlayerPrefsManager.GetWinningScore());
         SetupGame();
         scoreKeeper = GetComponent<ScoreKeeper>();
     }
 	
 	void Update()
     {
-		if (scoreKeeper.IsGameOver())
+        if (scoreKeeper.IsGameOver())
         {
             EndGame();
             Invoke("ShowEndGameOptions", 5f);
@@ -132,9 +128,9 @@ public class GameManager : MonoBehaviour
         else if (PlayerPrefsManager.GetDifficulty() == 2)
         {
             if (paddles[0].isComputer)
-                paddles[0].SetSpeed(6f);
+                paddles[0].SetSpeed(5f);
             if (paddles[1].isComputer)
-                paddles[1].SetSpeed(6f);
+                paddles[1].SetSpeed(5f);
         }
         else
         {

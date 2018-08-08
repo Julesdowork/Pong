@@ -4,18 +4,17 @@ public class Paddle : MonoBehaviour
 {
     public bool isComputer;
 
-    [SerializeField] float yClamp = 4.3f;
     [SerializeField] string inputAxis;
     [SerializeField] string paddleName;
 
-    float speed = 10f;
-    Vector2 startingPosition;
+    float speed = 10f;              // How quickly a paddle moves
+    float yClamp = 4.3f;            // The bounds of a paddle's movement
+    Vector2 startingPosition;       // Position paddle will be in before a serve
     GameObject ball;
-    bool controlsEnabled = true;
+    bool controlsEnabled = true;    // Can the paddle be moved?
 
     void Awake()
     {
-        print(paddleName + " speed: " + speed);
         ball = GameObject.Find("Ball");
     }
 
@@ -23,8 +22,7 @@ public class Paddle : MonoBehaviour
     {
         startingPosition = transform.position;
     }
-
-    // Update is called once per frame
+    
     void FixedUpdate()
     {
         if (controlsEnabled)
@@ -52,19 +50,21 @@ public class Paddle : MonoBehaviour
     void MoveComputer()
     {
         Vector3 movement = Vector3.zero;
+
+        // vertical distance between the ball and the paddle
         float diffY = ball.transform.position.y - transform.position.y;
-        if (diffY > 0)
+        if (diffY > 0)  // move in +y direction
         {
-            movement.y = speed * Mathf.Min(diffY, 1f);
+            movement.y = speed * Mathf.Min(diffY, 1f);  // move by at most a factor of 1
         }
-        if (diffY < 0)
+        if (diffY < 0)  // move in -y direction
         {
             movement.y = -(speed * Mathf.Min(-diffY, 1f));
         }
 
         transform.position += movement * Time.deltaTime;
         float clampPosY = Mathf.Clamp(transform.position.y, -yClamp, yClamp);
-        transform.position = new Vector3(transform.position.x, clampPosY, 0f);
+        transform.position = new Vector3(transform.position.x, clampPosY);
     }
 
     public void ResetPaddlePosition()
@@ -92,6 +92,7 @@ public class Paddle : MonoBehaviour
         speed = newSpeed;
     }
 
+    // Player 2 should move using the Up and Down Arrow keys
     public void ChangeInputAxis()
     {
         inputAxis = "VerticalRight";
