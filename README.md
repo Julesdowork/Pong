@@ -4,18 +4,26 @@
 You already know what it is.
 
 ### How to Play
-A: Tilt Left
+Player 1 Controls:
+W: Move Up
+S: Move Down
 
-D: Tilt Right
+Player 2 Controls:
+Up Arrow: Move Up
+Down Arrow: Move Down
 
-Space: Thrust/Accelerate
+### Features
++ Play against a computer or another human player
++ Three difficulty modes to challenge yourself with
++ Change the score needed to win (default is 11 points)
 
 ### Potential New Features / To-Do List
-+ Larger levels and a camera that tracks the player
-+ Teleporter
-+ Destructible obstacles
-+ Fuel system
-+ More aggressive obstacles
-+ Points and collectibles in each level
++ Particle effects when ball collides with paddle/walls
++ Particle trail effect when ball moves
++ Tournament Mode (3 sets of matches per game)
 
-[Link to game on itch.io]()
+### Credits
+Font
+Blocked By Sabata, FontStruction, Creative Commons Attribution Share Alike
+
+[Link to game on itch.io](https://julesdowork.itch.io/pong)

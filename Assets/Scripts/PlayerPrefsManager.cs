@@ -50,4 +50,9 @@ public class PlayerPrefsManager : MonoBehaviour
     {
         return PlayerPrefs.GetInt(WINNING_SCORE_KEY);
     }
+
+    public static void ResetPrefs()
+    {
+        PlayerPrefs.DeleteAll();
+    }
 }

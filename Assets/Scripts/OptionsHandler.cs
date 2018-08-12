@@ -23,11 +23,6 @@ public class OptionsHandler : MonoBehaviour
         DisplayWinningScore();
         DisplayDifficultyState();
         DisplayPlayerStates();
-
-        print("Left is: " + PlayerPrefsManager.GetPlayerState(1));
-        print("Right is: " + PlayerPrefsManager.GetPlayerState(2));
-        print("Difficulty set to: " + PlayerPrefsManager.GetDifficulty());
-        print("Winning score: " + PlayerPrefsManager.GetWinningScore());
     }
 
     public void ChangePlayer1State()
